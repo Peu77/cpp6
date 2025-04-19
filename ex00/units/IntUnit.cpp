@@ -35,6 +35,10 @@ std::string IntUnit::convert(std::string value) {
             return "impossible";
         }
 
+        if (floatValue > static_cast<float>(INT_MAX) || floatValue < static_cast<float>(INT_MIN)) {
+            return "impossible";
+        }
+
         const int intValue = static_cast<int>(floatValue);
         return std::to_string(intValue);
     } catch (...) {
