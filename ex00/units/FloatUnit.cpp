@@ -3,6 +3,10 @@
 //
 
 #include "FloatUnit.h"
+
+#include <iomanip>
+#include <iostream>
+#include <regex>
 #include <sstream>
 
 FloatUnit::FloatUnit() {
@@ -11,34 +15,53 @@ FloatUnit::FloatUnit() {
 
 FloatUnit::~FloatUnit() = default;
 
-FloatUnit::FloatUnit(const FloatUnit& other) = default;
+FloatUnit::FloatUnit(const FloatUnit &other) = default;
 
-FloatUnit& FloatUnit::operator=(const FloatUnit& other) = default;
+FloatUnit &FloatUnit::operator=(const FloatUnit &other) = default;
 
-std::string FloatUnit::convert(std::string value) {
+ScalarValue FloatUnit::convert(const std::string value) {
+    return ScalarValue(std::stof(value));
+}
 
-    if (value == "inf" || value == "inff")
-        return "infinityf";
+void FloatUnit::castAndPrint(ScalarValue &value) {
+    float floatValue = value.getValue<float>();
+    std::stringstream ss;
+    ss << std::fixed << std::setprecision(5) << floatValue;
 
-    if (value == "nan" || value == "nanf")
-        return "nanf";
-
-    if (value.length() == 1 && !std::isdigit(value[0]))
-        value = std::to_string(static_cast<float>(value[0]));
-
-    if (value.back() == 'f' || value.back() == 'F')
-        value.pop_back();
-
-    std::istringstream iss(value);
-    float floatValue;
-    if (!(iss >> floatValue) || !iss.eof()) {
-        return "impossible";
-    }
-
-    std::string result = std::to_string(floatValue);
+    std::string result = ss.str();
     while (result.back() == '0' && result[result.length() - 2] != '.') {
         result.pop_back();
     }
 
-    return result + "f";
+    std::cout << result << "f" << std::endl;
+}
+
+bool FloatUnit::isTypeOf(std::string value) {
+    if (value.empty() || (value.back() != 'f' && value.back() != 'F'))
+        return false;
+
+    if (value == "nanf" || value == "nanF")
+        return true;
+
+    if (std::regex_match(value, std::regex("^[+-]?inf[fF]?$")))
+        return true;
+
+    int dotCount = 0;
+    for (const char c: value) {
+        if (c == '.')
+            dotCount++;
+    }
+
+    if (dotCount != 1)
+        return false;
+
+    std::string numericPart = value.substr(0, value.length() - 1);
+
+    try {
+        std::size_t pos;
+        std::stof(numericPart, &pos);
+        return pos == numericPart.length();
+    } catch (...) {
+        return false;
+    }
 }

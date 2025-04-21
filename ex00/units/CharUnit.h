@@ -10,11 +10,13 @@
 class CharUnit: public IUnit {
 public:
     CharUnit();
-    ~CharUnit();
+    ~CharUnit() override;
     CharUnit(const CharUnit& other);
     CharUnit& operator=(const CharUnit& other);
 
-    std::string convert(std::string value) override;
+    void castAndPrint(ScalarValue& value) override;
+    ScalarValue convert(std::string value) override;
+    bool isTypeOf(std::string value) override;
 };
 
 

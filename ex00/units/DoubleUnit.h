@@ -12,11 +12,13 @@
 class DoubleUnit: public IUnit {
 public:
     DoubleUnit();
-    ~DoubleUnit();
+    ~DoubleUnit() override;
     DoubleUnit(const DoubleUnit& other);
     DoubleUnit& operator=(const DoubleUnit& other);
 
-    std::string convert(std::string value) override;
+    void castAndPrint(ScalarValue& value) override;
+    ScalarValue convert(std::string value) override;
+    bool isTypeOf(std::string value) override;
 };
 
 

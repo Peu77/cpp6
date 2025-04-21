@@ -10,10 +10,8 @@
 #include "units/DoubleUnit.h"
 #include "units/FloatUnit.h"
 #include "units/IntUnit.h"
-#include <memory>
-#include <array>
 
-std::array<std::unique_ptr<IUnit>, 4> ScalarConverter::units = {
+std::unique_ptr<IUnit> ScalarConverter::units[4] = {
     std::make_unique<CharUnit>(),
     std::make_unique<DoubleUnit>(),
     std::make_unique<FloatUnit>(),
@@ -22,6 +20,23 @@ std::array<std::unique_ptr<IUnit>, 4> ScalarConverter::units = {
 
 
 void ScalarConverter::convert(std::string value) {
-    for (auto &unit: units)
-        std::cout << unit->name << ": " << unit->convert(value) << std::endl;
+    IUnit *valueUnit = nullptr;
+    for (auto &unit: units) {
+        if (unit->isTypeOf(value)) {
+            valueUnit = unit.get();
+            break;
+        }
+    }
+    if (valueUnit == nullptr) {
+        std::cout << "Invalid value" << std::endl;
+        return;
+    }
+
+    std::cout << valueUnit->name << std::endl;
+
+    auto convertedValue = valueUnit->convert(value);
+    for (auto &unit: units) {
+            std::cout << unit->name << ": ";
+            unit->castAndPrint(convertedValue);
+    }
 }

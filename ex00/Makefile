@@ -1,10 +1,11 @@
 CC = c++
-CFLAGS = -Wall -Wextra -Werror -std=c++17
+CFLAGS = -std=c++17 -g -fsanitize=address# -Wall -Wextra -Werror
 SRC = main.cpp ScalarConverter.cpp \
 		units/CharUnit.cpp \
 		units/IntUnit.cpp \
 		units/FloatUnit.cpp \
-		units/DoubleUnit.cpp
+		units/DoubleUnit.cpp \
+		ScalarValue.cpp
 OBJ = $(SRC:.cpp=.o)
 NAME = ex00
 

@@ -10,11 +10,13 @@
 class FloatUnit: public IUnit {
 public:
     FloatUnit();
-    ~FloatUnit();
+    ~FloatUnit() override;
     FloatUnit(const FloatUnit& other);
     FloatUnit& operator=(const FloatUnit& other);
 
-    std::string convert(std::string value) override;
+    void castAndPrint(ScalarValue& value) override;
+    ScalarValue convert(std::string value) override;
+    bool isTypeOf(std::string value) override;
 };
 
 

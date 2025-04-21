@@ -11,7 +11,7 @@
 
 class ScalarConverter {
   private:
-    static std::array<std::unique_ptr<IUnit>, 4> units;
+    static std::unique_ptr<IUnit> units[4];
 
 public:
     static void convert(std::string value);

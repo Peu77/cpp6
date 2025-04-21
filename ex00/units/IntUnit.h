@@ -6,15 +6,18 @@
 #define INTUNIT_H
 
 #include "../IUnit.h"
+#include "../ScalarValue.h"
 
 class IntUnit: public IUnit {
 public:
     IntUnit();
-    ~IntUnit();
+    ~IntUnit() override;
     IntUnit(const IntUnit& other);
     IntUnit& operator=(const IntUnit& other);
 
-    std::string convert(std::string value) override;
+    void castAndPrint(ScalarValue& value) override;
+    ScalarValue convert(std::string value) override;
+    bool isTypeOf(std::string value) override;
 };
 
 

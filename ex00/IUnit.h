@@ -7,11 +7,17 @@
 
 #include <string>
 
+#include "ScalarValue.h"
+
+
 class IUnit {
 public:
-  std::string name;
   virtual ~IUnit() = default;
-  virtual std::string convert(std::string value) = 0;
+
+  std::string name;
+  virtual ScalarValue convert(std::string value) = 0;
+  virtual void castAndPrint(ScalarValue& value) = 0;
+  virtual bool isTypeOf(std::string value) = 0;
 };
 
 

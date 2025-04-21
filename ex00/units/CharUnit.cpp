@@ -4,6 +4,7 @@
 
 #include "CharUnit.h"
 #include <sstream>
+#include <iostream>
 
 CharUnit::CharUnit() {
     name = "char";
@@ -15,30 +16,39 @@ CharUnit::CharUnit(const CharUnit &other) = default;
 
 CharUnit &CharUnit::operator=(const CharUnit &other) = default;
 
-std::string CharUnit::convert(std::string value) {
-    if (value.length() == 1) {
-        return value;
+void CharUnit::castAndPrint(ScalarValue& value) {
+    double doubleValue = value.getValue<double>();
+
+    if (std::isnan(doubleValue)) {
+        std::cout << "impossible" << std::endl;
+        return;
     }
 
-    if (value == "nan" || value == "nanf" || value == "inf" || value == "inff")
-        return "impossible";
-
-    try {
-        if (value.back() == 'f' || value.back() == 'F')
-            value.pop_back();
-
-        std::istringstream iss(value);
-        float floatValue;
-
-        if (!(iss >> floatValue) || !iss.eof()) {
-            return "impossible";
-        }
-        if (!std::isprint(static_cast<int>(floatValue))) {
-            return "non displayable";
-        }
-        char charValue = static_cast<char>(floatValue);
-        return {1, charValue};
-    } catch (...) {
-        return "impossible";
+    if (std::isinf(doubleValue)) {
+        std::cout << "impossible" << std::endl;
+        return;
     }
+
+    if (doubleValue > std::numeric_limits<char>::max() || doubleValue < std::numeric_limits<char>::min()) {
+        std::cout << "impossible" << std::endl;
+        return;
+    }
+
+    char charValue = static_cast<char>(doubleValue);
+
+
+    if (!std::isprint(charValue)) {
+        std::cout << "non displayable" << std::endl;
+        return;
+    }
+
+    std::cout << charValue << std::endl;
+}
+
+ScalarValue CharUnit::convert(std::string value) {
+    return ScalarValue(value[0]);
+}
+
+bool CharUnit::isTypeOf(const std::string value) {
+    return value.length() == 1 && !std::isdigit(value[0]);
 }
