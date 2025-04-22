@@ -10,6 +10,8 @@
 #include "units/DoubleUnit.h"
 #include "units/FloatUnit.h"
 #include "units/IntUnit.h"
+#include <limits>
+#include <memory>
 
 std::unique_ptr<IUnit> ScalarConverter::units[4] = {
     std::make_unique<CharUnit>(),
@@ -28,11 +30,9 @@ void ScalarConverter::convert(std::string value) {
         }
     }
     if (valueUnit == nullptr) {
-        std::cout << "Invalid value" << std::endl;
+        std::cerr << "Invalid value" << std::endl;
         return;
     }
-
-    std::cout << valueUnit->name << std::endl;
 
     auto convertedValue = valueUnit->convert(value);
     for (auto &unit: units) {

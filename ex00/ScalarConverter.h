@@ -6,12 +6,16 @@
 #define SCALARCONVERTER_H
 
 #include <string>
-#include <array>
+#include <memory>
 #include "IUnit.h"
 
 class ScalarConverter {
   private:
     static std::unique_ptr<IUnit> units[4];
+    ScalarConverter() = delete;
+    ScalarConverter(const ScalarConverter &other) = delete;
+    ScalarConverter &operator=(const ScalarConverter &other) = delete;
+    ~ScalarConverter() = delete;
 
 public:
     static void convert(std::string value);

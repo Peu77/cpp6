@@ -4,6 +4,7 @@
 #include <string>
 #include <limits>
 #include <cmath>
+#include <iostream>
 
 enum ValueType {
     CHAR,
@@ -25,20 +26,19 @@ private:
     };
 
 public:
-    ScalarValue() : type(ValueType::INVALID) {
-    }
+    ScalarValue();
 
-    explicit ScalarValue(char value) : type(ValueType::CHAR), charValue(value) {
-    }
+    ScalarValue(char value);
 
-    explicit ScalarValue(int value) : type(ValueType::INT), intValue(value) {
-    }
+    ScalarValue(int value);
 
-    explicit ScalarValue(float value) : type(ValueType::FLOAT), floatValue(value) {
-    }
+    ScalarValue(float value);
 
-    explicit ScalarValue(double value) : type(ValueType::DOUBLE), doubleValue(value) {
-    }
+    ScalarValue(double value);
+
+    ScalarValue(const ScalarValue &other);
+    ScalarValue &operator=(const ScalarValue &other);
+    ~ScalarValue();
 
     template<typename T>
     T getValue() const {
@@ -53,7 +53,7 @@ public:
         }
 
         switch (type) {
-            case CHAR: return static_cast<T>(intValue);
+            case CHAR: return static_cast<T>(charValue);
             case INT: return static_cast<T>(intValue);
             case FLOAT: return static_cast<T>(floatValue);
             case DOUBLE: return static_cast<T>(doubleValue);

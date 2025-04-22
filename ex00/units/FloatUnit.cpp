@@ -26,7 +26,7 @@ ScalarValue FloatUnit::convert(const std::string value) {
 void FloatUnit::castAndPrint(ScalarValue &value) {
     float floatValue = value.getValue<float>();
     std::stringstream ss;
-    ss << std::fixed << std::setprecision(5) << floatValue;
+    ss << std::fixed << std::setprecision(2) << floatValue;
 
     std::string result = ss.str();
     while (result.back() == '0' && result[result.length() - 2] != '.') {

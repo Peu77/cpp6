@@ -28,7 +28,7 @@ void DoubleUnit::castAndPrint(ScalarValue& value) {
     double doubleValue = value.getValue<double>();
 
     std::stringstream ss;
-    ss << std::fixed << std::setprecision(5) << doubleValue;
+    ss << std::fixed << std::setprecision(2) << doubleValue;
 
     std::string result = ss.str();
     while (result.back() == '0' && result[result.length() - 2] != '.') {

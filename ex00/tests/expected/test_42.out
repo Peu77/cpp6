@@ -1,0 +1,4 @@
+char: *
+double: 42.0
+float: 42.0f
+int: 42
