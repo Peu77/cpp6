@@ -30,7 +30,7 @@ void ScalarConverter::convert(std::string value) {
         }
     }
     if (valueUnit == nullptr) {
-        std::cerr << "Invalid value" << std::endl;
+        std::cout << "Invalid value" << std::endl;
         return;
     }
 
