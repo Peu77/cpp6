@@ -40,6 +40,28 @@ void identify(Base *p) {
         std::cerr << RED << "Unknown type" << RESET << std::endl;
 }
 
+void identify(Base &p) {
+    try {
+        A &a = dynamic_cast<A &>(p);
+        (void)a;
+        std::cout << GREEN << "A" << RESET << std::endl;
+    } catch (std::bad_cast &) {
+        try {
+            B &b = dynamic_cast<B &>(p);
+            (void)b;
+            std::cout << BLUE << "B" << RESET << std::endl;
+        } catch (std::bad_cast &) {
+            try {
+                C &c = dynamic_cast<C &>(p);
+                (void)c;
+                std::cout << YELLOW << "C" << RESET << std::endl;
+            } catch (std::bad_cast &) {
+                std::cerr << RED << "Unknown type" << RESET << std::endl;
+            }
+        }
+    }
+}
+
 int main() {
     std::cout << "Generating and identifying 10 random objects:" << std::endl;
 
@@ -47,6 +69,15 @@ int main() {
         std::cout << "Object " << i + 1 << ": ";
         Base *obj = generate();
         identify(obj);
+        delete obj;
+    }
+
+    std::cout << std::endl << "Generating and identifying 10 random objects using reference:" << std::endl;
+
+    for (int i = 0; i < 10; i++) {
+        std::cout << "Object " << i + 1 << ": ";
+        Base *obj = generate();
+        identify(*obj);
         delete obj;
     }
 
