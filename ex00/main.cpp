@@ -9,7 +9,6 @@ int main(const int argc, const char** argv) {
         return 1;
     }
 
-
     ScalarConverter::convert(argv[1]);
     return 0;
 }

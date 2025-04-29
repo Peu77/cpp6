@@ -15,7 +15,7 @@ typedef struct Data {
 } Data;
 
 class Serializer {
-  public:
+  private:
     Serializer() = delete;
     Serializer(const Serializer&) = delete;
     Serializer& operator=(const Serializer&) = delete;
